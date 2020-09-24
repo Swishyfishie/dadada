@@ -14,7 +14,7 @@ function getItems(){
         console.log("")
         i.map(item => {
             items.innerHTML += `
-                <li>${item.name} : ${item.calories}</li>
+                <li data-id="${item.id}">${item.name} : ${item.calories}</li>
             `
         })
     })
