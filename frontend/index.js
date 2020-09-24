@@ -10,11 +10,12 @@ function getItems(){
     items.innerHTML = ""
     fetch(BASE_URL+"/items")
     .then(res => res.json())
-    .then(items => {
-        items.innerHTML += items.map(item => {
-            `<li>
-            <a href="#" data-id="${item.id}">${item.name}</a>    
-            </li>`
+    .then(i => {
+        console.log("")
+        i.map(item => {
+            items.innerHTML += `
+                <li>${item.name} : ${item.calories}</li>
+            `
         })
     })
 }
