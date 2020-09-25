@@ -1,6 +1,6 @@
 const BASE_URL = 'http://localhost:3000'
 
-document.addEventListener("load", () => {
+window.addEventListener("load", () => {
     getItems()
 })
 
@@ -24,18 +24,30 @@ function clearAll(){
 }
 
 function addItem(){
+    
     let itemForm = document.querySelector(".item-form")
 
     itemForm.innerHTML = `
         <form>
             <label for="name">
-            <input type="text">
+            <input type="text" id="itemText">
             <label for="calories">
-            <input type="number">
-            <input type="submit" value="Add Item" id="addItem">
+            <input type="number" id="calorieNumber">
+            <input type="submit" value="Add Item" id="submitItem">
         </form>
     `
+// debugger
+    let submitItem = document.querySelector("#submitItem")
+    console.log(submitItem)
+    submitItem.addEventListener("click", postItem)
+}
 
-    let addItem = document.querySelector("#addItem")
-    addItem.addEventListener("click", postItem)
+function postItem(){
+
+    const item = {
+        name: document.querySelector("#itemText").value,
+        calories: document.querySelector("#calorieNumber").value
+    }
+
+    
 }
