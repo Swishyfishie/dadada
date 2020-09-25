@@ -49,5 +49,20 @@ function postItem(){
         calories: document.querySelector("#calorieNumber").value
     }
 
-    
+    fetch(BASE_URL+"/items", {
+        method: "POST",
+        body: JSON.stringify(item),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept':'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(item => {
+        let items = document.querySelector(".items")
+
+        items.innerHTML += `
+        <li data-id="${item.id}">${item.name} : ${item.calories}</li>
+        `
+    })
 }
