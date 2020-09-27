@@ -17,7 +17,7 @@ function getItems(){
         
         i.map(item => {
             items.innerHTML += `
-                <li class="itemDetails" data-id="${item.id}"><p contenteditable="false" id="itemName">${item.name}</p> : <p contenteditable="false" id="itemCalories">${item.calories}</p> <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
+                <li class="itemDetails" data-id="${item.id}"><p id="itemName">${item.name}</p> : <p id="itemCalories">${item.calories}</p> <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
             `
             
         })
@@ -69,7 +69,7 @@ function postItem(){
         let items = document.querySelector(".items")
 
         items.innerHTML += `
-        <li class="itemDetails" data-id="${item.id}"><p contenteditable="true" id="itemName">${item.name}</p> : <p contenteditable="true" id="itemCalories">${item.calories}</p> <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
+        <li class="itemDetails" data-id="${item.id}"><p id="itemName">${item.name}</p> : <p id="itemCalories">${item.calories}</p> <button id="deleteItem">Delete</button><button class="editItem">Edit</button></li>
         `
     })
 
@@ -103,42 +103,60 @@ document.addEventListener('click',function(e){
 
 
  // EDIT FUNCTION TO BE REFACTORED
- document.addEventListener('click',function(e){
-     e.preventDefault()
-     if(e.target && e.target.id == 'editItem'){
-
-        if(e.target.innerHTML === "Edit"){
-            e.target.innerHTML = "Save"
-            document.querySelector('#itemName').contentEditable = true
-            document.querySelector('#itemCalories').contentEditable = true
-        }   else {
-            e.target.innerHTML = "Edit"
-            document.querySelector('#itemName').contentEditable = false
-            document.querySelector('#itemCalories').contentEditable = false
-        }    
-        
-        
-        const item = {
-            name: document.querySelector('#itemName').innerText,
-            calories: document.querySelector("#itemCalories").innerText
+ document.querySelectorAll('.itemDetails').forEach(e=>{
+     e.addEventListener('click',function(e){
+        e.preventDefault()
+        console.log(e.target.parentElement)
+        if(e.target && e.target.className == 'editItem'){
+   
+           if(e.target.innerHTML === "Edit"){
+               e.target.innerHTML = "Save"
+                   document.querySelector('#itemName').contentEditable = true
+                   document.querySelector('#itemCalories').contentEditable = true
+           }   else {
+               e.target.innerHTML = "Edit"
+                   document.querySelector('#itemName').contentEditable = false
+                   document.querySelector('#itemCalories').contentEditable = false
+                   const item = {
+                       name: document.querySelector('#itemName').innerText,
+                       calories: parseInt(document.querySelector("#itemCalories").innerText)
+                   }
+   
+                   let currentId = e.target.parentNode.dataset.id
+           
+                   fetch(BASE_URL+`/items/${currentId}`, {
+                       method: "PUT",
+                       body: JSON.stringify(item),
+                       headers: {
+                         "Content-Type": "application/json",
+                         "Accept": "application/json",
+                       }
+           
+                   })
+                   .then(res => res.json())
+                   .then(item => console.log(item))
+           }    
+           
+           
+   
+           
+   
+           // let currentId = e.target.parentNode.dataset.id
+           
+           // fetch(BASE_URL+`/items/${currentId}`, {
+           //     method: "PUT",
+           //     body: JSON.stringify(item),
+           //     headers: {
+           //       "Content-Type": "application/json",
+           //       "Accept": "application/json",
+           //     }
+   
+           // })
+           // .then(res => res.json())
+           // .then(item => console.log(item))
+           
+   
+          
         }
-        
-        console.log(item)
-        let currentId = e.target.parentNode.dataset.id
-        
-        // fetch(BASE_URL+`/items/${currentId}`, {
-        //     method: "PUT",
-        //     body: JSON.stringify(item),
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       "Accept": "application/json",
-        //     }
-
-        // })
-        // .then(res => res.json())
-        // .then(item => console.log(item))
-        
-
-       
-     }
- });
+    });
+ })
