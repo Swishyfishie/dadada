@@ -17,7 +17,7 @@ function getItems(){
         
         i.map(item => {
             items.innerHTML += `
-                <li data-id="${item.id}">${item.name} : ${item.calories}<a href="#" id="deleteItem">X</a></li>
+                <li data-id="${item.id}">${item.name} : ${item.calories}<button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
             `
             
         })
@@ -69,7 +69,7 @@ function postItem(){
         let items = document.querySelector(".items")
 
         items.innerHTML += `
-        <li data-id="${item.id}">${item.name} : ${item.calories} <a href="#" id="deleteItem">X</a></li>
+        <li data-id="${item.id}">${item.name} : ${item.calories} <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
         `
     })
 
