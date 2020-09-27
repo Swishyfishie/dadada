@@ -1,23 +1,28 @@
 const BASE_URL = 'http://localhost:3000'
 document.querySelector("#addItem").addEventListener("click", addItem)
+
 window.addEventListener("load", () => {
     getItems()
-
+    
 })
 
 function getItems(){
     clearAll()
+
     let items = document.querySelector(".items")
     items.innerHTML = ""
     fetch(BASE_URL+"/items")
     .then(res => res.json())
     .then(i => {
+        
         i.map(item => {
             items.innerHTML += `
-                <li data-id="${item.id}">${item.name} : ${item.calories}</li>
+                <li data-id="${item.id}">${item.name} : ${item.calories}<a href="#" id="deleteItem">X</a></li>
             `
+            
         })
     })
+    
 }
 
 function clearAll(){
@@ -64,12 +69,32 @@ function postItem(){
         let items = document.querySelector(".items")
 
         items.innerHTML += `
-        <li data-id="${item.id}">${item.name} : ${item.calories} <a href="#" id="deleteItem">X</li>
+        <li data-id="${item.id}">${item.name} : ${item.calories} <a href="#" id="deleteItem">X</a></li>
         `
     })
 
     document.querySelector("#itemText").value = ''
     document.querySelector("#calorieNumber").value = ''
+    document.querySelector("#deleteItem").addEventListener("click", deleteItem)
 }
 
 // TO DO === IMPLEMENT DELETE FUNCTION FOR EACH ITEM
+
+document.addEventListener('click',function(e){
+    if(e.target && e.target.id== 'deleteItem'){
+        e.preventDefault()
+        let currentId = e.target.parentNode.dataset.id
+        
+        fetch(BASE_URL+`/items/${currentId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            }
+        })
+        e.target.parentElement.remove()
+        
+
+       
+     }
+ });
