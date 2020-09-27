@@ -103,44 +103,7 @@ document.addEventListener('click',function(e){
 
 
  // EDIT FUNCTION TO BE REFACTORED
- document.querySelectorAll('.itemDetails').forEach(e=>{
-     e.addEventListener('click',function(e){
-        e.preventDefault()
-        console.log(e.target.parentElement)
-        if(e.target && e.target.className == 'editItem'){
-   
-           if(e.target.innerHTML === "Edit"){
-               e.target.innerHTML = "Save"
-                   document.querySelector('#itemName').contentEditable = true
-                   document.querySelector('#itemCalories').contentEditable = true
-           }   else {
-               e.target.innerHTML = "Edit"
-                   document.querySelector('#itemName').contentEditable = false
-                   document.querySelector('#itemCalories').contentEditable = false
-                   const item = {
-                       name: document.querySelector('#itemName').innerText,
-                       calories: parseInt(document.querySelector("#itemCalories").innerText)
-                   }
-   
-                   let currentId = e.target.parentNode.dataset.id
-           
-                   fetch(BASE_URL+`/items/${currentId}`, {
-                       method: "PUT",
-                       body: JSON.stringify(item),
-                       headers: {
-                         "Content-Type": "application/json",
-                         "Accept": "application/json",
-                       }
-           
-                   })
-                   .then(res => res.json())
-                   .then(item => console.log(item))
-           }    
-           
-           
-   
-           
-   
+
            // let currentId = e.target.parentNode.dataset.id
            
            // fetch(BASE_URL+`/items/${currentId}`, {
@@ -157,6 +120,3 @@ document.addEventListener('click',function(e){
            
    
           
-        }
-    });
- })
