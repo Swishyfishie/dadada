@@ -24,7 +24,7 @@ module CalTr
     config.middleware.insert_before 0, Rack::Cors do 
       allow do
         origins '*'
-        resource '*', headers: :any, methods: [:get, :post,:delete,:update]
+        resource '*', headers: :any, methods: [:get, :post,:delete,:put]
       end
     end
     # Initialize configuration defaults for originally generated Rails version.

@@ -17,7 +17,7 @@ function getItems(){
         
         i.map(item => {
             items.innerHTML += `
-                <li data-id="${item.id}">${item.name} : ${item.calories}<button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
+                <li class="itemDetails" data-id="${item.id}"><p contenteditable="false" id="itemName">${item.name}</p> : <p contenteditable="false" id="itemCalories">${item.calories}</p> <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
             `
             
         })
@@ -69,7 +69,7 @@ function postItem(){
         let items = document.querySelector(".items")
 
         items.innerHTML += `
-        <li data-id="${item.id}">${item.name} : ${item.calories} <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
+        <li class="itemDetails" data-id="${item.id}"><p contenteditable="true" id="itemName">${item.name}</p> : <p contenteditable="true" id="itemCalories">${item.calories}</p> <button id="deleteItem">Delete</button><button id="editItem">Edit</button></li>
         `
     })
 
@@ -78,7 +78,7 @@ function postItem(){
     document.querySelector("#deleteItem").addEventListener("click", deleteItem)
 }
 
-// TO DO === IMPLEMENT DELETE FUNCTION FOR EACH ITEM
+// DELETE FUNCTION TO BE REFACTORED
 
 document.addEventListener('click',function(e){
     if(e.target && e.target.id== 'deleteItem'){
@@ -93,6 +93,50 @@ document.addEventListener('click',function(e){
             }
         })
         e.target.parentElement.remove()
+        
+
+       
+     }
+ });
+
+
+
+
+ // EDIT FUNCTION TO BE REFACTORED
+ document.addEventListener('click',function(e){
+     e.preventDefault()
+     if(e.target && e.target.id == 'editItem'){
+
+        if(e.target.innerHTML === "Edit"){
+            e.target.innerHTML = "Save"
+            document.querySelector('#itemName').contentEditable = true
+            document.querySelector('#itemCalories').contentEditable = true
+        }   else {
+            e.target.innerHTML = "Edit"
+            document.querySelector('#itemName').contentEditable = false
+            document.querySelector('#itemCalories').contentEditable = false
+        }    
+        
+        
+        const item = {
+            name: document.querySelector('#itemName').innerText,
+            calories: document.querySelector("#itemCalories").innerText
+        }
+        
+        console.log(item)
+        let currentId = e.target.parentNode.dataset.id
+        
+        // fetch(BASE_URL+`/items/${currentId}`, {
+        //     method: "PUT",
+        //     body: JSON.stringify(item),
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "Accept": "application/json",
+        //     }
+
+        // })
+        // .then(res => res.json())
+        // .then(item => console.log(item))
         
 
        
