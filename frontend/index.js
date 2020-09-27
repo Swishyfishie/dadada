@@ -1,7 +1,8 @@
 const BASE_URL = 'http://localhost:3000'
-
+document.querySelector("#addItem").addEventListener("click", addItem)
 window.addEventListener("load", () => {
     getItems()
+
 })
 
 function getItems(){
@@ -38,8 +39,9 @@ function addItem(){
     `
 // debugger
     let submitItem = document.querySelector("#submitItem")
-    console.log(submitItem)
     submitItem.addEventListener("click", postItem)
+
+    
 }
 
 function postItem(){
@@ -62,7 +64,12 @@ function postItem(){
         let items = document.querySelector(".items")
 
         items.innerHTML += `
-        <li data-id="${item.id}">${item.name} : ${item.calories}</li>
+        <li data-id="${item.id}">${item.name} : ${item.calories} <a href="#" id="deleteItem">X</li>
         `
     })
+
+    document.querySelector("#itemText").value = ''
+    document.querySelector("#calorieNumber").value = ''
 }
+
+// TO DO === IMPLEMENT DELETE FUNCTION FOR EACH ITEM
